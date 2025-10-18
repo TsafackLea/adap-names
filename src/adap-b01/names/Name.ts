@@ -20,7 +20,11 @@ export class Name {
 
     /** Expects that all Name components are properly masked */
     constructor(other: string[], delimiter?: string) {
-        throw new Error("needs implementation or deletion");
+        this.components = other;
+        if (delimiter) {
+            this.delimiter = delimiter;
+        }
+        // throw new Error("needs implementation or deletion");
     }
 
     /**
