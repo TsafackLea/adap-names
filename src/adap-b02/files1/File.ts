@@ -1,7 +1,9 @@
 export class File {
+   private _isOpen = false;
+   private _data: Object[] = [];
 
     public isOpen(): boolean {
-      throw new Error("incomplete example code");
+      return this._isOpen;
     }
   
     public isClosed(): boolean {
