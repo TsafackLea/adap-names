@@ -7,40 +7,47 @@ export class File {
     }
   
     public isClosed(): boolean {
-        throw new Error("incomplete example code");
+        return !this._isOpen;
     }
   
     public open(): void {
       this.assertIsClosedFile();
-      throw new Error("incomplete example code");
+      this._isOpen = true;
     }
 
     public read(): Object[] {
       this.assertIsOpenFile();
-      throw new Error("incomplete example code");
+      return [...this._data];
     }
 
     public write(data: Object[]): void {
       this.assertIsOpenFile();
-      throw new Error("incomplete example code");
+      if (!Array.isArray(data)) {
+      throw new Error("write(data): 'data' sollte ein Array sein.");
+    }
+    this._data.push(...data);
     }
   
     public close(): void {
       this.assertIsOpenFile();
-      throw new Error("incomplete example code");
+      this._isOpen = false;
     }
 
     public delete(): void {
       this.assertIsClosedFile();
-      throw new Error("incomplete example code");
+      this._data = [];
     }
 
     protected assertIsOpenFile(): void {
-        throw new Error("incomplete example code");
+        if (!this._isOpen) {
+      throw new Error("Operation nicht erlaubt: Die Datei ist nicht geöffnet.");
+      }
     }
 
     protected assertIsClosedFile(): void {
-        throw new Error("incomplete example code");
+        if (this._isOpen) {
+      throw new Error("Operation nicht erlaubt: Die Datei ist nicht geschlossen.");
+      }
     }
 
 }
