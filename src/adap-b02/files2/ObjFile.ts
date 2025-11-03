@@ -15,7 +15,7 @@ export class ObjFile implements File {
     }
   
     public isClosed(): boolean {
-        return !this._isOpen;
+      return !this._isOpen;
     }
   
     public open(): void {
@@ -49,13 +49,13 @@ export class ObjFile implements File {
     }
 
     protected assertIsOpenFile(): void {
-       if (!this._isOpen) {
+      if (!this._isOpen) {
       throw new Error("Operation nicht erlaubt: Die Datei ist geschlossen.");
       }
     }
 
     protected assertIsClosedFile(): void {
-       if (this._isOpen) {
+      if (this._isOpen) {
       throw new Error("Operation nicht erlaubt: Die Datei ist geöffnet.");
       }
     }
