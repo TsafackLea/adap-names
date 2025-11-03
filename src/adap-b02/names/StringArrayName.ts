@@ -9,8 +9,8 @@ export class StringArrayName implements Name {
     constructor(source: string[], delimiter?: string) {
         if (!Array.isArray(source)) throw new TypeError("source muss ein string[] sein");
 
-        if (delimiter !== undefined) {
-            if (typeof delimiter !== "string" || delimiter.length !== 1)
+        if (delimiter != undefined) {
+            if (typeof delimiter != "string" || delimiter.length != 1)
                 throw new TypeError("delimiter muss genau 1 Zeichen lang sein");
             this.delimiter = delimiter;
         }
@@ -19,7 +19,7 @@ export class StringArrayName implements Name {
     }
 
     private requireSingleChar(ch: string, label: string): string {
-        if (typeof ch !== "string" || ch.length !== 1)
+        if (typeof ch != "string" || ch.length != 1)
             throw new TypeError(`${label} muss genau 1 Zeichen lang sein`);
         return ch;
     }
@@ -27,7 +27,7 @@ export class StringArrayName implements Name {
     private escapeForOutput(component: string, delimiter: string): string {
         const esc = ESCAPE_CHARACTER;
         let out = component.split(esc).join(esc + esc);          
-        if (delimiter !== esc) out = out.split(delimiter).join(esc + delimiter); 
+        if (delimiter != esc) out = out.split(delimiter).join(esc + delimiter); 
         return out;
     }
     public asString(delimiter: string = this.delimiter): string {
@@ -44,7 +44,7 @@ export class StringArrayName implements Name {
     }
 
     public isEmpty(): boolean {
-        return this.components.length === 0;
+        return this.components.length == 0;
     }
 
     public getNoComponents(): number {
@@ -57,7 +57,7 @@ export class StringArrayName implements Name {
     }
 
     private requireString(v: unknown, label: string): void {
-        if (typeof v !== "string") throw new TypeError( label + "muss ein string sein");
+        if (typeof v != "string") throw new TypeError( label + "muss ein string sein");
     }
 
     public getComponent(i: number): string {
@@ -98,13 +98,13 @@ export class StringArrayName implements Name {
         const comps: string[] = [];
         let cur = "", escaped = false;
 
-        if (s.length === 0) return [""];
+        if (s.length == 0) return [""];
 
         for (let i = 0; i < s.length; i++) {
             const ch = s[i];
             if (escaped) { cur += ch; escaped = false; continue; }
-            if (ch === esc) { escaped = true; continue; }
-            if (ch === delimiter) { comps.push(cur); cur = ""; }
+            if (ch == esc) { escaped = true; continue; }
+            if (ch == delimiter) { comps.push(cur); cur = ""; }
             else { cur += ch; }
         }
         if (escaped) cur += esc; // trailing \

@@ -27,13 +27,13 @@ export class StringName implements Name {
     }
 
     constructor(source: string, delimiter?: string) {
-              if (delimiter !== undefined) {
-            if (typeof delimiter !== "string" || delimiter.length !== 1) {
+              if (delimiter != undefined) {
+            if (typeof delimiter != "string" || delimiter.length != 1) {
                 throw new TypeError("delimiter must be a single character string");
             }
             this.delimiter = delimiter;
         }
-        if (typeof source !== "string") {
+        if (typeof source != "string") {
             throw new TypeError("source must be a string");
         }
         this.name = source;
@@ -42,23 +42,23 @@ export class StringName implements Name {
      private escapeForOutput(component: string, delimiter: string): string {
         const esc = ESCAPE_CHARACTER;
         let out = component.split(esc).join(esc + esc);          // \  -> \\
-        if (delimiter !== esc) out = out.split(delimiter).join(esc + delimiter); // . -> \.
+        if (delimiter != esc) out = out.split(delimiter).join(esc + delimiter); // . -> \.
         return out;
     }
     private rebuildFromComponents(comps: string[]): void {
-        if (comps.length === 0) { this.name = ""; this.noComponents = 0; return; }
+        if (comps.length = 0) { this.name = ""; this.noComponents = 0; return; }
         this.name = comps.map(c => this.escapeForOutput(c, this.delimiter)).join(this.delimiter);
         this.noComponents = comps.length;
     }
 
     private requireSingleChar(ch: string, label: string): string {
-        if (typeof ch !== "string" || ch.length !== 1)
+        if (typeof ch != "string" || ch.length != 1)
             throw new TypeError(`${label} muss genau 1 Zeichen lang sein`);
         return ch;
     }
 
     private requireString(v: unknown, label: string): void {
-        if (typeof v !== "string") throw new TypeError(`${label} muss ein string sein`);
+        if (typeof v != "string") throw new TypeError(`${label} muss ein string sein`);
     }
 
     private requireIndex(i: number): void {
@@ -73,7 +73,7 @@ export class StringName implements Name {
             throw new RangeError(`Index ${i} außerhalb des gültigen Bereichs für insert`);
     }
     private countComponents(s: string, delimiter: string): number {
-        if (s.length === 0) return 0;
+        if (s.length == 0) return 0;
         return this.parseComponents(s, delimiter).length;
     }
 
@@ -93,7 +93,7 @@ export class StringName implements Name {
     }
 
     public isEmpty(): boolean {
-         return this.noComponents === 0;
+         return this.noComponents == 0;
     }
 
     public getNoComponents(): number {
@@ -138,7 +138,7 @@ export class StringName implements Name {
 
     public concat(other: Name): void {
         const otherStr = other.asString(this.delimiter); 
-        if (otherStr.length === 0) return;
+        if (otherStr.length ==0) return;
         this.name = this.isEmpty() ? otherStr : this.name + this.delimiter + otherStr;
         this.noComponents = this.countComponents(this.name, this.delimiter);
     }
