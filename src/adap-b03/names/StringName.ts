@@ -9,63 +9,91 @@ export class StringName extends AbstractName {
 
     constructor(source: string, delimiter?: string) {
         super();
-        throw new Error("needs implementation or deletion");
+        this.name = source ?? "";
+        this.noComponents = this.name === "" ? 0 : this.name.split(this.delimiter).length;
     }
 
     public clone(): Name {
-        throw new Error("needs implementation or deletion");
+        return new StringName(this.name, this.delimiter);
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
+        return this.getAsComponents().join(delimiter);
     }
 
     public asDataString(): string {
-        throw new Error("needs implementation or deletion");
+        return this.asString(this.delimiter);
     }
 
     public isEqual(other: Name): boolean {
-        throw new Error("needs implementation or deletion");
+        return super.isEqual(other);
     }
 
     public getHashCode(): number {
-        throw new Error("needs implementation or deletion");
+        return super.getHashCode();
     }
 
     public isEmpty(): boolean {
-        throw new Error("needs implementation or deletion");
+        return this.noComponents == 0;
     }
 
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation or deletion");
+       return this.delimiter;
     }
 
     public getNoComponents(): number {
-        throw new Error("needs implementation or deletion");
+        return this.noComponents;
     }
 
     public getComponent(i: number): string {
-        throw new Error("needs implementation or deletion");
+        const comps = this.getAsComponents();
+        if (i < 0 || i >= comps.length) throw new RangeError("index out of bounds");
+        return comps[i];
     }
 
     public setComponent(i: number, c: string) {
-        throw new Error("needs implementation or deletion");
+        const comps = this.getAsComponents();
+        if (i < 0 || i >= comps.length) throw new RangeError("index out of bounds");
+        comps[i] = c ?? "";
+        this.setFromComponents(comps);
     }
 
     public insert(i: number, c: string) {
-        throw new Error("needs implementation or deletion");
+        const comps = this.getAsComponents();
+        if (i < 0 || i > comps.length) throw new RangeError("index out of bounds");
+        comps.splice(i, 0, c ?? "");
+        this.setFromComponents(comps);
     }
 
     public append(c: string) {
-        throw new Error("needs implementation or deletion");
+        const comps = this.getAsComponents();
+        comps.push(c ?? "");
+        this.setFromComponents(comps);
     }
 
     public remove(i: number) {
-        throw new Error("needs implementation or deletion");
+        const comps = this.getAsComponents();
+        if (i < 0 || i >= comps.length) throw new RangeError("index out of bounds");
+        comps.splice(i, 1);
+        this.setFromComponents(comps);
+    }
+
+     private getAsComponents(): string[] {
+        if (this.name == "") return [];
+        return this.name.split(this.delimiter);
+    }
+
+     private setFromComponents(components: string[]) {
+        this.name = components.join(this.delimiter);
+        this.noComponents = components.length;
     }
 
     public concat(other: Name): void {
-        throw new Error("needs implementation or deletion");
+        const comps = this.getAsComponents();
+        for (let i = 0; i < other.getNoComponents(); i++) {
+            comps.push(other.getComponent(i));
+        }
+        this.setFromComponents(comps);
     }
 
 }
