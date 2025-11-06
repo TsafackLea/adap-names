@@ -78,12 +78,12 @@ export class StringName extends AbstractName {
         this.setFromComponents(comps);
     }
 
-     private getAsComponents(): string[] {
+    private getAsComponents(): string[] {
         if (this.name == "") return [];
         return this.name.split(this.delimiter);
     }
 
-     private setFromComponents(components: string[]) {
+    private setFromComponents(components: string[]) {
         this.name = components.join(this.delimiter);
         this.noComponents = components.length;
     }
