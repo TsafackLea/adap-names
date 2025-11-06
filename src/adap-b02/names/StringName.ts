@@ -41,14 +41,20 @@ export class StringName implements Name {
     }
      private escapeForOutput(component: string, delimiter: string): string {
         const esc = ESCAPE_CHARACTER;
-        let out = component.split(esc).join(esc + esc);          // \  -> \\
-        if (delimiter != esc) out = out.split(delimiter).join(esc + delimiter); // . -> \.
+        let out = component.split(esc).join(esc + esc);         
+        if (delimiter != esc) out = out.split(delimiter).join(esc + delimiter); 
         return out;
     }
     private rebuildFromComponents(comps: string[]): void {
-        if (comps.length = 0) { this.name = ""; this.noComponents = 0; return; }
-        this.name = comps.map(c => this.escapeForOutput(c, this.delimiter)).join(this.delimiter);
-        this.noComponents = comps.length;
+    if (comps.length == 0) {      
+        this.name = "";
+        this.noComponents = 0;
+        return;
+    }
+    this.name = comps
+        .map(c => this.escapeForOutput(c, this.delimiter))
+        .join(this.delimiter);
+    this.noComponents = comps.length;
     }
 
     private requireSingleChar(ch: string, label: string): string {
@@ -77,12 +83,13 @@ export class StringName implements Name {
         return this.parseComponents(s, delimiter).length;
     }
 
-    public asString(delimiter: string = this.delimiter): string {
-       if (this.isEmpty()) return "";
-        const d = this.requireSingleChar(delimiter, "delimiter");
-        const comps = this.parseComponents(this.name, this.delimiter); 
-        return comps.map(c => this.escapeForOutput(c, d)).join(d); 
-    }
+    public asString(delimiter?: string): string {
+    if (this.isEmpty()) return "";
+    const d = delimiter == undefined
+        ? this.delimiter : this.requireSingleChar(delimiter, "delimiter");
+    const comps = this.parseComponents(this.name, this.delimiter);
+    return comps.map(c => this.escapeForOutput(c, d)).join(d);
+}
 
     public asDataString(): string {
          return this.name;
