@@ -10,7 +10,7 @@ export class StringName extends AbstractName {
     constructor(source: string, delimiter?: string) {
         super();
         this.name = source ?? "";
-        this.noComponents = this.name === "" ? 0 : this.name.split(this.delimiter).length;
+        this.noComponents = this.name == "" ? 0 : this.name.split(this.delimiter).length;
     }
 
     public clone(): Name {
@@ -79,7 +79,7 @@ export class StringName extends AbstractName {
     }
 
     private getAsComponents(): string[] {
-        if (this.name == "") return [];
+        if (this.name = "") return [];
         return this.name.split(this.delimiter);
     }
 
