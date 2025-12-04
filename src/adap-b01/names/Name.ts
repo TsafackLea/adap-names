@@ -24,7 +24,6 @@ export class Name {
         if (delimiter) {
             this.delimiter = delimiter;
         }
-        // throw new Error("needs implementation or deletion");
     }
 
     /**
@@ -33,8 +32,39 @@ export class Name {
      * Users can vary the delimiter character to be used
      */
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
+    const resultParts: string[] = [];
+
+    for (let k = 0; k < this.components.length; k++) {
+        const comp = this.components[k];
+        let raw = "";
+        let escaping = false;
+
+        for (let i = 0; i < comp.length; i++) {
+            const ch = comp.charAt(i);
+
+            if (escaping) {
+                // Zeichen nach ESCAPE_CHARACTER wörtlich übernehmen
+                raw += ch;
+                escaping = false;
+            } else if (ch === ESCAPE_CHARACTER) {
+                // Escape einleiten – nächstes Zeichen wird wörtlich genommen
+                escaping = true;
+            } else {
+                raw += ch;
+            }
+        }
+
+        // Falls ein einzelnes ESCAPE am Ende steht, als Literal behandeln
+        if (escaping) {
+            raw += ESCAPE_CHARACTER;
+        }
+
+        resultParts.push(raw);
     }
+
+    // Komponenten mit gewünschtem Delimiter verbinden
+    return resultParts.join(delimiter);
+}
 
     /** 
      * Returns a machine-readable representation of Name instance using default control characters
@@ -42,35 +72,80 @@ export class Name {
      * The control characters in the data string are the default characters
      */
     public asDataString(): string {
-        throw new Error("needs implementation or deletion");
+        const maskedForDefault: string[] = [];
+
+        for (let k = 0; k < this.components.length; k++) {
+            const comp = this.components[k];
+
+            let raw = "";
+            let escaping = false;
+            for (let i = 0; i < comp.length; i++) {
+                const ch = comp.charAt(i);
+                if (escaping) {
+                    raw += ch;
+                    escaping = false;
+                } else if (ch == ESCAPE_CHARACTER) {
+                    escaping = true;
+                } else {
+                    raw += ch;
+                }
+            }
+            if (escaping) {
+                raw += ESCAPE_CHARACTER;
+            }
+
+            let masked = "";
+            for (let i = 0; i < raw.length; i++) {
+                const ch = raw.charAt(i);
+                if (ch == DEFAULT_DELIMITER || ch == ESCAPE_CHARACTER) {
+                    masked += ESCAPE_CHARACTER;
+                }
+                masked += ch;
+            }
+
+            maskedForDefault.push(masked);
+        }
+
+        return maskedForDefault.join(DEFAULT_DELIMITER);
     }
 
     public getComponent(i: number): string {
-        throw new Error("needs implementation or deletion");
+        if (i < 0 || i >= this.components.length) {
+            throw new RangeError("Index out of bounds");
+        }
+        return this.components[i];
     }
 
     /** Expects that new Name component c is properly masked */
     public setComponent(i: number, c: string): void {
-        throw new Error("needs implementation or deletion");
+        if (i < 0 || i >= this.components.length) {
+            throw new RangeError("Index out of bounds");
+        }
+        this.components[i] = c;
     }
 
-     /** Returns number of components in Name instance */
-     public getNoComponents(): number {
-        throw new Error("needs implementation or deletion");
+    /** Returns number of components in Name instance */
+    public getNoComponents(): number {
+        return this.components.length;
     }
 
     /** Expects that new Name component c is properly masked */
     public insert(i: number, c: string): void {
-        throw new Error("needs implementation or deletion");
+        if (i < 0 || i > this.components.length) {
+            throw new RangeError("Index out of bounds");
+        }
+        this.components.splice(i, 0, c);
     }
 
     /** Expects that new Name component c is properly masked */
     public append(c: string): void {
-        throw new Error("needs implementation or deletion");
+        this.components.push(c);
     }
 
     public remove(i: number): void {
-        throw new Error("needs implementation or deletion");
+        if (i < 0 || i >= this.components.length) {
+            throw new RangeError("Index out of bounds");
+        }
+        this.components.splice(i, 1);
     }
-
 }
