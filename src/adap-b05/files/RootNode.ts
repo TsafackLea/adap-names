@@ -1,4 +1,4 @@
-3import { Name } from "../names/Name";
+import { Name } from "../names/Name";
 import { StringName } from "../names/StringName";
 import { Directory } from "./Directory";
 
