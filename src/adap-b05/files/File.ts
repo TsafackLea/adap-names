@@ -5,7 +5,7 @@ import { MethodFailedException } from "../common/MethodFailedException";
 enum FileState {
     OPEN,
     CLOSED,
-    DELETED        
+    DELETED
 };
 
 export class File extends Node {
@@ -17,21 +17,31 @@ export class File extends Node {
     }
 
     public open(): void {
-        // do something
+        if (this.state == FileState.DELETED) {
+            throw new MethodFailedException("File is deleted");
+        }
+        this.state = FileState.OPEN;
     }
 
     public read(noBytes: number): Int8Array {
-        let result: Int8Array = new Int8Array(noBytes);
-        // do something
+        const result: Int8Array = new Int8Array(noBytes);
 
         let tries: number = 0;
         for (let i: number = 0; i < noBytes; i++) {
             try {
                 result[i] = this.readNextByte();
-            } catch(ex) {
+                
+            } catch (ex) {
                 tries++;
+
                 if (ex instanceof MethodFailedException) {
-                    // Oh no! What @todo?!
+                   
+                    if (tries >= 3) {
+                        throw ex;   
+                    }
+                   
+                } else {
+                     throw ex;
                 }
             }
         }
@@ -40,15 +50,21 @@ export class File extends Node {
     }
 
     protected readNextByte(): number {
-        return 0; // @todo
+        if (this.state != FileState.OPEN) {
+            throw new MethodFailedException("File is not open");
+        }
+
+       
+        return 0;
     }
 
     public close(): void {
-        // do something
+        if (this.state == FileState.OPEN) {
+            this.state = FileState.CLOSED;
+        }
     }
 
     protected doGetFileState(): FileState {
         return this.state;
     }
-
 }

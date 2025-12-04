@@ -9,8 +9,10 @@ export abstract class AbstractName implements Name {
 
    
     constructor(delimiter: string = DEFAULT_DELIMITER) {
+
         if (typeof delimiter != "string" || delimiter.length != 1 || delimiter == ESCAPE_CHARACTER) {
             throw new IllegalArgumentException(
+                
                 "Precondition violated: delimiter must be a single character and not the escape character."
             );
         }
@@ -27,7 +29,7 @@ export abstract class AbstractName implements Name {
         }
 
         const n = this.getNoComponents();
-        
+
         if (n == 0) {
             return "";
         }

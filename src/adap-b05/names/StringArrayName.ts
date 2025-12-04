@@ -9,12 +9,14 @@ export class StringArrayName extends AbstractName {
 
     
     constructor(source: string[], delimiter: string = DEFAULT_DELIMITER) {
-        
+
         super(delimiter);
 
 
         if (!Array.isArray(source)) {
+
             throw new IllegalArgumentException(
+                
                 "Precondition violated: source must be an array of strings."
             );
         }

@@ -12,7 +12,7 @@ export class StringName extends AbstractName {
         super(delimiter);
 
         if (typeof source != "string") {
-            
+
             throw new IllegalArgumentException("Precondition violated: source must be a string.");
         }
 
@@ -21,13 +21,16 @@ export class StringName extends AbstractName {
     }
 
     public clone(): Name {
+
         return new StringName(this.name, this.delimiter);
     }
 
     
 
     public asString(delimiter: string = this.delimiter): string {
+        
         return super.asString(delimiter);
+
     }
 
     public asDataString(): string {
