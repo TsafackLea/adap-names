@@ -27,6 +27,7 @@ export abstract class AbstractName implements Name {
         }
 
         const n = this.getNoComponents();
+        
         if (n == 0) {
             return "";
         }
