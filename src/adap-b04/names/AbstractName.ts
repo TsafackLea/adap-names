@@ -19,13 +19,17 @@ export abstract class AbstractName implements Name {
     
 
     public asString(delimiter: string = this.delimiter): string {
+
         if (typeof delimiter != "string" || delimiter.length != 1 || delimiter == ESCAPE_CHARACTER) {
             throw new IllegalArgumentException(
+                
                 "Precondition violated: delimiter must be a single character and not the escape character."
             );
         }
 
         const n = this.getNoComponents();
+
+
         if (n == 0) {
             return "";
         }

@@ -79,10 +79,13 @@ export class StringArrayName extends AbstractName {
 
     
     public insert(i: number, c: string): void {
+
         if (i < 0 || i > this.components.length) {
+            
             throw new IllegalArgumentException("Precondition violated: index out of bounds.");
         }
         this.components.splice(i, 0, c);
+
         if (typeof c != "string") {
             throw new InvalidStateException(
                 "Class invariant violated: all components must be strings."
@@ -91,10 +94,12 @@ export class StringArrayName extends AbstractName {
     }
 
     public append(c: string): void {
+
         this.components.push(c);
         if (typeof c !="string") {
             throw new InvalidStateException(
-                
+
+
                 "Class invariant violated: all components must be strings."
 
             );
