@@ -1,5 +1,6 @@
 import { Node } from "./Node";
 import { Directory } from "./Directory";
+import { InvalidStateException } from "../common/InvalidStateException";
 
 export class Link extends Node {
 
@@ -31,8 +32,14 @@ export class Link extends Node {
         target.rename(bn);
     }
 
+    /**
+     * Stellt sicher, dass ein Zielknoten vorhanden ist.
+     * Ist keiner gesetzt, ist der Link in einem ungültigen Zustand.
+     */
     protected ensureTargetNode(target: Node | null): Node {
-        const result: Node = this.targetNode as Node;
-        return result;
+        if (target == null) {
+            throw new InvalidStateException("Link has no target node");
+        }
+        return target;
     }
 }
