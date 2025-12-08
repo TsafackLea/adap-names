@@ -20,4 +20,25 @@ export class Directory extends Node {
         this.childNodes.delete(cn); // Yikes! Should have been called remove
     }
 
+    /**
+     * Suche rekursiv in diesem Verzeichnisbaum.
+     * Keine extra Hilfsmethode – nur Überschreiben von findNodes().
+     */
+    public findNodes(bn: string): Set<Node> {
+        
+        const result = super.findNodes(bn);
+
+       
+        for (const child of this.childNodes) {
+
+            const childMatches = child.findNodes(bn);
+            
+            for (const n of childMatches) {
+                result.add(n);
+            }
+        }
+
+        return result;
+    }
+
 }
