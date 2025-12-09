@@ -49,6 +49,7 @@ export class Node {
     }
 
     public getParentNode(): Directory {
+        
         return this.parentNode;
     }
 
@@ -57,7 +58,17 @@ export class Node {
      * @param bn basename of node being searched for
      */
     public findNodes(bn: string): Set<Node> {
-        throw new Error("needs implementation or deletion");
+
+        const result = new Set<Node>();
+
+        
+        if (this.getBaseName() == bn) {
+            
+            result.add(this);
+        }
+
+        
+        return result;
     }
 
 }
