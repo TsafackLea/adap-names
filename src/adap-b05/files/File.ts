@@ -17,31 +17,44 @@ export class File extends Node {
     }
 
     public open(): void {
+
         if (this.state == FileState.DELETED) {
+
             throw new MethodFailedException("File is deleted");
         }
         this.state = FileState.OPEN;
     }
 
+    /**
+     * Liest noBytes Bytes; bei MethodFailedException wird maximal
+     * drei Mal versucht (gesamt, nicht pro Byte). Nach der dritten
+     * Fehlfunktion wird die Exception weitergereicht.
+     */
     public read(noBytes: number): Int8Array {
         const result: Int8Array = new Int8Array(noBytes);
 
         let tries: number = 0;
+
         for (let i: number = 0; i < noBytes; i++) {
             try {
+
                 result[i] = this.readNextByte();
                 
             } catch (ex) {
-                tries++;
-
+                
                 if (ex instanceof MethodFailedException) {
-                   
+                    tries++;
+
+                    
                     if (tries >= 3) {
-                        throw ex;   
+                        throw ex;
                     }
+
                    
+                    i--;
                 } else {
-                     throw ex;
+                   
+                    throw ex;
                 }
             }
         }
@@ -54,7 +67,7 @@ export class File extends Node {
             throw new MethodFailedException("File is not open");
         }
 
-       
+        
         return 0;
     }
 

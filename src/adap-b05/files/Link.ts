@@ -19,6 +19,7 @@ export class Link extends Node {
     }
 
     public setTargetNode(target: Node): void {
+        
         this.targetNode = target;
     }
 
