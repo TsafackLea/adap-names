@@ -1,4 +1,6 @@
 import { Node } from "./Node";
+import { InvalidStateException } from "../common/InvalidStateException";
+
 
 export class Directory extends Node {
 
@@ -24,16 +26,24 @@ export class Directory extends Node {
      * Suche rekursiv in diesem Verzeichnisbaum.
      * Keine extra Hilfsmethode – nur Überschreiben von findNodes().
      */
-    public findNodes(bn: string): Set<Node> {
+      public findNodes(bn: string): Set<Node> {
+
         
         const result = super.findNodes(bn);
 
-       
         for (const child of this.childNodes) {
 
             const childMatches = child.findNodes(bn);
-            
+
             for (const n of childMatches) {
+
+              
+                if (result.size > 0) {
+                    throw new InvalidStateException(
+                        "Invalid file system state: multiple nodes with same base name"
+                    );
+                }
+
                 result.add(n);
             }
         }

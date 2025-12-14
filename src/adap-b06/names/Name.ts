@@ -1,0 +1,26 @@
+import { Equality } from "../common/Equality";
+import { Cloneable } from "../common/Cloneable";
+import { Printable } from "../common/Printable";
+
+/**
+ * Value type: Name (homogenous name).
+ * B06: immutable - all former mutation methods return a new Name.
+ */
+export interface Name extends Cloneable, Printable, Equality {
+
+    isEmpty(): boolean;
+
+    getNoComponents(): number;
+
+    getComponent(i: number): string;
+
+    setComponent(i: number, c: string): Name;
+
+    insert(i: number, c: string): Name;
+
+    append(c: string): Name;
+
+    remove(i: number): Name;
+
+    concat(other: Name): Name;
+}

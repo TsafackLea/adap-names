@@ -1,21 +1,27 @@
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 
+
 export abstract class AbstractName implements Name {
 
     protected delimiter: string = DEFAULT_DELIMITER;
+    
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
         throw new Error("needs implementation or deletion");
     }
 
     public clone(): Name {
+
         throw new Error("needs implementation or deletion");
     }
+
+
 
     public asString(delimiter: string = this.delimiter): string {
         throw new Error("needs implementation or deletion");
     }
+
 
     public toString(): string {
         return this.asDataString();

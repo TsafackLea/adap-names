@@ -33,7 +33,23 @@ export class Node {
     }
 
     public getBaseName(): string {
-        return this.doGetBaseName();
+
+    const before = this.baseName;
+    const bn = this.doGetBaseName();
+
+    
+    InvalidStateException.assert(
+        this.baseName === before,
+        "Invalid state: baseName was modified while reading baseName (faulty node)"
+    );
+
+    
+    InvalidStateException.assert(
+        bn == this.baseName,
+        "Invalid state: doGetBaseName returned inconsistent value"
+    );
+
+        return bn;
     }
 
     protected doGetBaseName(): string {
